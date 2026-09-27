@@ -11,7 +11,8 @@ Environment: Local XAMPP installation
 
 Testing Scope: Local DVWA instance only
 
-Test 0 – Baseline
+## Test 0 – Baseline
+
 Input
 1
 Purpose
@@ -23,13 +24,16 @@ Result
 SQL Injection was successful, and the admin account data was retrieved.
 
 Data Returned
-
+```Text
 ID: 1
 First name: admin
 Surname: admin
-
+```
 Screenshot
-[Insert baseline screenshot here]
+<img width="1791" height="908" alt="Screenshot 2026-08-31 171921" src="https://github.com/user-attachments/assets/602291b9-6982-4ced-891a-696d322e8383" />
+
+
+
 Test 1 – Boolean-Based Injection
 Payload
 ' OR '1'='1
@@ -52,7 +56,7 @@ Result
 SQL Injection using payload 1 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
 
 Data Exposed
-
+```Text
 ID: ' OR '1'='1,
 First name: admin, 
 Surname: admin
@@ -72,11 +76,13 @@ Surname: Picasso
 ID: ' OR '1'='1,
 First name: Bob, 
 Surname: Smith
-
+```
 Successful?
 YES / NO
+
 Screenshot
-[Insert Screenshot Here]
+<img width="1860" height="963" alt="Screenshot 2026-08-31 172158" src="https://github.com/user-attachments/assets/82de9282-5f90-45c0-a166-e1debc7f141b" />
+
 
 Test 2 – Boolean-Based Variation
 Payload
@@ -94,7 +100,7 @@ Result
 SQL Injection using payload 2 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
 
 Data Exposed
-
+```Text
 ID: 1' OR '1'='1,
 First name: admin, 
 Surname: admin
@@ -114,12 +120,14 @@ Surname: Picasso
 ID: 1' OR '1'='1,
 First name: Bob, 
 Surname: Smith
+```
 
 Successful?
 YES / NO
 
 Screenshot
-[Insert Screenshot Here]
+<img width="1863" height="985" alt="Screenshot 2026-08-31 172514" src="https://github.com/user-attachments/assets/606daf49-fbde-4363-a0f1-0e3d13de1a29" />
+
 
 Test 3 – Comment-Based Variation
 Payload
@@ -137,7 +145,7 @@ Result
 SQL Injection using payload 3 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
 
 Data Exposed
-
+```Text
 ID: 1' OR '1'='1 --,
 First name: admin, 
 Surname: admin
@@ -157,19 +165,23 @@ Surname: Picasso
 ID: 1' OR '1'='1 --,
 First name: Bob, 
 Surname: Smith
+```
 
 Successful?
 YES / NO
-Screenshot
-[Insert Screenshot Here]
-Results Comparison
-Test	Payload	Technique	Successful?	Data Exposed
-Baseline	1	Normal input	Yes	SQL Injection was successful, and the admin account data was retrieved.
-Test 1	' OR '1'='1	Boolean-based SQLi	Yes	SQL Injection using payload 1 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
-Test 2	1' OR '1'='1	Boolean-based SQLi	Yes	QL Injection using payload 2 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
-Test 3	1' OR '1'='1' --	Boolean + comment	Yes	SQL Injection using payload 3 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
 
-Overall Analysis
+Screenshot
+<img width="1142" height="905" alt="Screenshot 2026-09-27 150119" src="https://github.com/user-attachments/assets/cbfd910c-fcb1-4ee4-b884-c396fadf4ed1" />
+
+
+## Results Comparison
+|Test	      |Payload	          |Technique	        |Successful?|	       |Data Exposed                                                                           | |---------- |-------------------|------------------ |------------------- |---------------------------------------------------------------------------------------|
+|Baseline	  |    1	            | Normal input	    |  Yes	             |  SQL Injection was successful, and the admin account data was retrieved.              |
+|Test 1     | 	' OR '1'='1	    |Boolean-based SQLi |	 Yes	             |  SQL Injection using payload 1 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
+|Test 2     |	1' OR '1'='1	    |Boolean-based SQLi |	 Yes	             |  SQL Injection using payload 2 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
+|Test 3     |	1' OR '1'='1' --	|Boolean + comment	| Yes	               | SQL Injection using payload 3 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
+
+## Overall Analysis
 
 The tests demonstrated the risk of constructing SQL statements by directly concatenating user-controlled input into SQL.
 
@@ -177,13 +189,14 @@ The successful payloads were able to alter the intended query logic because the 
 
 The vulnerability could be prevented by using parameterized queries or prepared statements.
 
-Lessons Learned
-User input should be treated as untrusted.
-SQL queries should not be constructed through unsafe string concatenation.
-Parameterized queries separate SQL structure from user data.
-Security testing should be performed in controlled environments.
-The information exposed by a vulnerability should be documented accurately rather than assumed.
-Ethical Scope
+## Lessons Learned
+1. User input should be treated as untrusted.
+2. SQL queries should not be constructed through unsafe string concatenation.
+3. Parameterized queries separate SQL structure from user data.
+4. Security testing should be performed in controlled environments.
+5. The information exposed by a vulnerability should be documented accurately rather than assumed.
+   
+## Ethical Scope
 
 All testing was performed against a locally hosted DVWA instance specifically designed for security training.
 
