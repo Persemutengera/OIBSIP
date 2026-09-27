@@ -1,5 +1,5 @@
-SQL Injection Demonstration – DVWA
-Overview
+# SQL Injection Demonstration – DVWA
+## Overview
 
 This project demonstrates a classic SQL Injection vulnerability using Damn Vulnerable Web Application (DVWA) running locally.
 
@@ -7,7 +7,7 @@ The exercise was performed in a controlled laboratory environment using DVWA wit
 
 Ethical Notice: All testing was performed only against DVWA running on a local machine. No real websites, applications, or third-party systems were tested.
 
-Objective
+## Objective
 
 The objectives of this task were to:
 
@@ -18,14 +18,16 @@ Demonstrate SQL Injection using multiple test payloads.
 Observe and document the information returned by the vulnerable application.
 Explain why the SQL Injection worked.
 Explain how developers can prevent SQL Injection.
-Tools Used
-DVWA
-XAMPP
-Apache
-MySQL/MariaDB
-PHP
-Web browser
-Environment
+
+## Tools Used
+- DVWA
+- XAMPP
+- Apache
+- MySQL/MariaDB
+- PHP
+- Web browser
+  
+## Environment
 
 The application was hosted locally using XAMPP.
 
@@ -36,17 +38,19 @@ http://localhost/dvwa/
 The DVWA security level was configured as:
 
 Low
-DVWA Setup
-Installed XAMPP.
-Started Apache and MySQL.
-Downloaded DVWA.
-Placed the DVWA directory inside the XAMPP htdocs directory.
-Configured the DVWA database settings.
-Opened the DVWA setup page.
-Created/reset the DVWA database.
-Logged into DVWA.
-Set the security level to Low.
-SQL Injection
+
+## DVWA Setup
+1. Installed XAMPP.
+2. Started Apache and MySQL.
+3. Downloaded DVWA.
+4. Placed the DVWA directory inside the XAMPP htdocs directory.
+5. Configured the DVWA database settings.
+6. Opened the DVWA setup page.
+7. Created/reset the DVWA database.
+8. Logged into DVWA.
+9. Set the security level to Low.
+    
+## SQL Injection
 
 SQL Injection is a web application vulnerability that occurs when an application includes untrusted user input directly in an SQL query.
 
@@ -58,7 +62,7 @@ SELECT * FROM users WHERE user_id = '$id';
 
 If $id contains malicious SQL syntax, the input can interfere with the intended query.
 
-Baseline Test
+## Baseline Test
 
 Before testing SQL Injection, the application was tested using a normal user ID:
 
@@ -73,7 +77,8 @@ The application returned the normal user record associated with the supplied ID.
 Screenshot:
 
 [Insert Screenshot 2 Here]
-SQL Injection Test 1
+
+## SQL Injection Test 1
 
 Payload:
 
@@ -92,6 +97,7 @@ Observed Result
 SQL Injection using payload 1 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
 
 Data Exposed
+```Text
 
 ID: ' OR '1'='1,
 First name: admin, 
@@ -112,10 +118,12 @@ Surname: Picasso
 ID: ' OR '1'='1,
 First name: Bob, 
 Surname: Smith
+```
 
 Screenshot:
 
-[Insert Screenshot 3 Here]
+<img width="1415" height="901" alt="Screenshot 2026-08-31 172117" src="https://github.com/user-attachments/assets/7f611190-ef71-4a20-9176-e83a5924a494" />
+
 
 SQL Injection Test 2
 
@@ -130,6 +138,7 @@ Observed Result
 SQL Injection using payload 2 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
 
 Data Exposed
+```Text
 
 ID: 1' OR '1'='1,
 First name: admin, 
@@ -150,12 +159,13 @@ Surname: Picasso
 ID: 1' OR '1'='1,
 First name: Bob, 
 Surname: Smith
-
+```
 Screenshot:
 
-[Insert Screenshot 4 Here]
+<img width="1863" height="985" alt="Screenshot 2026-08-31 172514" src="https://github.com/user-attachments/assets/65d3496c-7919-464e-8a67-1248045d3f60" />
 
-SQL Injection Test 3
+
+## SQL Injection Test 3
 
 Payload:
 
@@ -169,7 +179,7 @@ SQL Injection using payload 3 was successful, and the admin account, Gordon Brow
 
 Data Exposed
 
-
+```Text
 ID: 1' OR '1'='1 --,
 First name: admin, 
 Surname: admin
@@ -189,28 +199,25 @@ Surname: Picasso
 ID: 1' OR '1'='1 --,
 First name: Bob, 
 Surname: Smith
-
-Screenshot:
-
-[Insert Screenshot 5 Here]
+```
 
 Results Summary
 
-Test	Payload	Result
+|Test	      |Payload            |	Result
+|-------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------|
+|Baseline	  |  1                |    Normal user record                                                                                                        | 
+|Test 1	      |  ' OR '1'='1      |	SQL Injection using payload 1 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
+|Test 2	      |  1' OR '1'='1     | SQL Injection using payload 2 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
+|Test 3	      | 1' OR '1'='1' --  | SQL Injection using payload 3 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
 
-Baseline	1	Normal user record
-Test 1	' OR '1'='1	SQL Injection using payload 1 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
-Test 2	1' OR '1'='1	SQL Injection using payload 2 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
-Test 3	1' OR '1'='1' --	SQL Injection using payload 3 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.
-
-Why the Payload Works
+## Why the Payload Works
 
 The vulnerability occurs because user input is incorporated directly into an SQL statement.
 
 A vulnerable application may construct a query similar to:
-
+```Text
 $query = "SELECT * FROM users WHERE user_id = '$id'";
-
+```
 The database cannot reliably distinguish between the application's SQL code and malicious SQL syntax supplied through the input field.
 
 The Boolean expression:
@@ -219,48 +226,49 @@ The Boolean expression:
 
 is always true. Therefore, the injected condition can alter the logic of the WHERE clause.
 
-Security Impact
+## Security Impact
 
 SQL Injection can allow an attacker to interfere with database queries.
 
 Depending on the vulnerable application and database permissions, SQL Injection can potentially result in:
 
-Unauthorized data disclosure
-Authentication bypass
-Modification of database records
-Deletion of data
-Privilege escalation
-Further compromise of an application or server
+- Unauthorized data disclosure
+- Authentication bypass
+- Modification of database records
+- Deletion of data
+- Privilege escalation
+- Further compromise of an application or server
 
 In this DVWA exercise, the demonstrated impact was the exposure of database records returned by the SQL Injection module.
 
-Prevention
+## Prevention
 
 The primary defense against SQL Injection is to use parameterized queries, also known as prepared statements.
 
 Instead of constructing SQL using string concatenation:
-
+```Text
 $query = "SELECT * FROM users WHERE user_id = '$id'";
-
+```
 a developer should use a parameterized query:
-
+```Text
 $stmt = $db->prepare(
     "SELECT * FROM users WHERE user_id = ?"
 );
 
 $stmt->execute([$id]);
-
+```
 The SQL structure and user-provided value are handled separately.
 
 Additional security measures include:
 
-Validate input.
-Use least-privilege database accounts.
-Avoid unnecessary dynamic SQL.
-Do not expose sensitive database errors to users.
-Perform regular security testing.
-Keep application dependencies and database software updated.
-Conclusion
+- Validate input.
+- Use least-privilege database accounts.
+- Avoid unnecessary dynamic SQL.
+- Do not expose sensitive database errors to users.
+- Perform regular security testing.
+- Keep application dependencies and database software updated.
+  
+## Conclusion
 
 This exercise demonstrated how SQL Injection can manipulate a vulnerable database query when user input is incorporated directly into SQL.
 
@@ -268,8 +276,8 @@ The DVWA Low security level intentionally provides an insecure environment in wh
 
 The key lesson for developers is that user input should never be allowed to alter the structure of an SQL query. Parameterized queries and prepared statements should be used to separate SQL commands from user-supplied data.
 
-References
-DVWA – Damn Vulnerable Web Application
+## References
+- DVWA – Damn Vulnerable Web Application
 https://github.com/digininja/DVWA
-PortSwigger Web Security Academy – SQL Injection
+- PortSwigger Web Security Academy – SQL Injection
 https://portswigger.net/web-security/sql-injection
