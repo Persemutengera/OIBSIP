@@ -175,11 +175,11 @@ Screenshot
 
 
 ## Results Comparison
-|Test	      |Payload	          |Technique	        |Successful?|	       |Data Exposed                                                                           | |---------- |-------------------|------------------ |------------------- |---------------------------------------------------------------------------------------|
-|Baseline	  |    1	            | Normal input	    |  Yes	             |  SQL Injection was successful, and the admin account data was retrieved.              |
-|Test 1     | 	' OR '1'='1	    |Boolean-based SQLi |	 Yes	             |  SQL Injection using payload 1 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
-|Test 2     |	1' OR '1'='1	    |Boolean-based SQLi |	 Yes	             |  SQL Injection using payload 2 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
-|Test 3     |	1' OR '1'='1' --	|Boolean + comment	| Yes	               | SQL Injection using payload 3 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
+|Test	      | Payload	       |Technique	            |Successful?  |Data Exposed                                                                |                 |-----------|------------------|----------------------|-------------|----------------------------------------------------------------------------|
+|Baseline	|    1	          | Normal input	      |  Yes	     |  SQL Injection was successful, and the admin account data was retrieved.   |
+|Test 1     | 	' OR '1'='1	    |Boolean-based SQLi 	|  Yes	     |  SQL Injection using payload 1 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
+|Test 2     |	1' OR '1'='1	 |  Boolean-based SQLi 	|  Yes	     |  SQL Injection using payload 2 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
+|Test 3     |	1' OR '1'='1' --|	Boolean + comment	   |  Yes	     |   SQL Injection using payload 3 was successful, and the admin account, Gordon Brown account, Hack Me account, Pablo Picasso account, Bob Smith account data was retrieved.|
 
 ## Overall Analysis
 
