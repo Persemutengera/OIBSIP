@@ -180,17 +180,19 @@ The Nmap scan identified services exposed by the target system.
 
 The discovered ports and services should be recorded below based on the final scan output:
 
-Port	Protocol	Service	Version	Security Consideration
-<PORT>	TCP	<SERVICE>	<VERSION>	Review whether required
-<PORT>	TCP	<SERVICE>	<VERSION>	Restrict if unnecessary
-<PORT>	TCP	<SERVICE>	<VERSION>	Ensure securely configured
-Analysis
+|Port	   | Protocol	  |Service	       |Version	                               |Security Consideration     |
+|--------|-------------|----------------|-----------------------------------------|---------------------------|
+|80 	   | TCP	        |HTTP	          |Apache httpd 2.4.68 (Debian)	          |Review whether required    |
+|443	   | TCP	        |HTTPS/SSL HTTP	 |Apache httpd 2.4.68 (Debian)	          |Restrict if unnecessary    |
+|8000	   | TCP	        |HTTP	          |SimpleHTTPServer 0.6 (Python 3.13.12)	 |Ensure securely configured |
+
+## Analysis
 
 Open ports represent potential attack surfaces. A service does not necessarily represent a vulnerability simply because it is exposed; however, every exposed service should be justified, securely configured, patched, and monitored.
 
 Unnecessary services should be disabled or restricted through firewall rules.
 
-8. Web Server Assessment
+## 8. Web Server Assessment
 
 The local HTTP server was tested as part of the assessment.
 
@@ -202,19 +204,20 @@ Nikto was used to identify potential HTTP configuration issues.
 
 The assessment identified the following observations.
 
-8.1 Missing Strict-Transport-Security Header
+### 8.1 Missing Strict-Transport-Security Header
 
 Nikto reported:
 
 Suggested security header missing:
 strict-transport-security
-Security Impact
+
+### Security Impact
 
 The HTTP Strict Transport Security (HSTS) header instructs compatible browsers to use HTTPS instead of HTTP for future connections.
 
 Its absence does not automatically mean that the server is vulnerable, particularly when the test server is operating only over HTTP in a laboratory environment. However, production websites using HTTPS should consider implementing HSTS.
 
-Recommendation
+### Recommendation
 
 For a production HTTPS service, configure the web server to return an appropriate HSTS header.
 
@@ -224,7 +227,7 @@ Strict-Transport-Security: max-age=31536000; includeSubDomains
 
 This should only be deployed when HTTPS is correctly configured and intended for the domain.
 
-9. HTTP Methods
+## 9. HTTP Methods
 
 Nikto reported the following allowed HTTP methods:
 
@@ -232,30 +235,31 @@ OPTIONS
 HEAD
 GET
 POST
-Observation
+
+### Observation
 
 The server responded as allowing:
 
-OPTIONS
-HEAD
-GET
-POST
+- OPTIONS
+- HEAD
+- GET
+- POST
 
 These methods are commonly used by web applications.
 
-Security Consideration
+## Security Consideration
 
 HTTP methods should be restricted to those required by the application. Unnecessary methods should be disabled where possible.
 
 For example, an application that does not require a particular method should not expose it unnecessarily.
 
-10. Wireshark Traffic Analysis
+## 10. Wireshark Traffic Analysis
 
 Wireshark was used to capture traffic generated during the assessment.
 
 The capture allowed network communication to be observed at the packet level.
 
-10.1 HTTP Traffic
+### 10.1 HTTP Traffic
 
 HTTP traffic was successfully generated during testing of the local web server.
 
@@ -267,7 +271,7 @@ HTTP packets showed communication between the client and the local web server.
 
 The test environment therefore demonstrated how HTTP requests and responses can be observed during packet capture.
 
-10.2 DNS Traffic
+### 10.2 DNS Traffic
 
 DNS traffic was investigated using:
 
@@ -283,7 +287,7 @@ DNS resolution is not required because the address is already specified as a loo
 
 Therefore, a DNS filter can legitimately return no packets during a localhost-only HTTP test.
 
-10.3 Loopback Traffic
+### 10.3 Loopback Traffic
 
 When testing:
 
@@ -300,23 +304,26 @@ ip addr
 The interface commonly appears as:
 
 lo
-11. Network Traffic Findings
+
+## 11. Network Traffic Findings
 
 The Wireshark assessment demonstrated that packet capture can provide visibility into communications occurring within the test environment.
 
 The following protocols were relevant to the assessment:
 
-Protocol	Observation	Security Relevance
-HTTP	Web traffic observed	Data is transmitted without TLS encryption
-TCP	Transport traffic observed	Provides connection-level communication
-DNS	Dependent on hostname resolution	Can reveal queried domains
-Loopback	Used for localhost traffic	Required for localhost packet capture
-12. Security Findings
+|Protocol	         |Observation	                      |Security Relevance                          |
+|--------------------|------------------------------------|--------------------------------------------|
+|HTTP	               |Web traffic observed	             |Data is transmitted without TLS encryption  |
+|TCP	               |Transport traffic observed	       |Provides connection-level communication     | 
+|DNS	               |Dependent on hostname resolution	 |Can reveal queried domains                  | 
+|Loopback	         |Used for localhost traffic	       |Required for localhost packet capture       |
+
+## 12. Security Findings
 
 The following findings were identified during the assessment.
 
-ID	Finding	Evidence	Risk
-F-01	HSTS header missing	Nikto	Medium
+ID	   Finding	             Evidence	Risk
+F-01	HSTS header missing	 Nikto	   Medium
 F-02	HTTP service exposed	Web-server testing	Medium
 F-03	HTTP methods available	Nikto	Low/Medium
 F-04	Network services exposed	Nmap	Depends on service
@@ -324,7 +331,7 @@ F-05	Unencrypted HTTP traffic observable	Wireshark	Medium
 
 Risk levels are indicative for this laboratory assessment. Actual production risk depends on the system architecture, exposure, data handled, authentication controls, and compensating security measures.
 
-13. Finding F-01 – Missing HSTS
+## 13. Finding F-01 – Missing HSTS
 Description
 
 Nikto identified the absence of the:
