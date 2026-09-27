@@ -1,348 +1,603 @@
-# Full Network Security Assessment Report
+# Network Security Assessment Report
+## Task 10 – Full Network Security Assessment
 
-Project: Full Network Security Assessment
-Assessment Type: Local Laboratory Network Assessment
-Date: 01 September 2026
-Tester: Perseverance Mutengera
-Environment: Kali Linux / VirtualBox Laboratory
-Status: Completed
+Assessment Type: Local Network Security Assessment
+Environment: Isolated/Test Network
+Tools Used: Nmap, Wireshark, Nikto
+Report Format: Markdown
+Assessment Date: September 2026
 
 ## 1. Executive Summary
 
-A structured security assessment was performed against an isolated local test network to identify exposed hosts, network services, web-server weaknesses, and potentially sensitive information observable through network traffic.
+This report documents a structured security assessment of a local test network and web service. The assessment was conducted in a controlled laboratory environment using network discovery, service enumeration, packet capture, and web-server vulnerability scanning.
 
-The assessment used Nmap, Wireshark and Nikto. Testing was limited to the authorized laboratory environment.
+The assessment used the following tools:
 
-### Overall Security Posture:
+- Nmap – network discovery, port scanning, and service enumeration
+- Wireshark – network traffic capture and protocol analysis
+- Nikto – web-server configuration and security checks
+- Markdown – documentation and reporting
 
-[LOW / MODERATE / HIGH]
+The purpose of the assessment was to identify exposed services, observe network communication, and identify potential security weaknesses in the test environment.
 
-The assessment identified [NUMBER] findings, consisting of:
+The results demonstrated the importance of reducing unnecessary exposed services, securing HTTP communications, implementing appropriate HTTP security headers, and monitoring network traffic.
 
-Critical: [NUMBER]
-High: [NUMBER]
-Medium: [NUMBER]
-Low: [NUMBER]
-Informational: [NUMBER]
+Important: All testing was performed against systems in a controlled laboratory environment for educational and security-assessment purposes.
 
-The most significant finding was [FINDING], which presents a potential risk of [IMPACT].
+## 2. Scope of Assessment
+### 2.1 Assessment Objectives
 
-Priority remediation actions include:
+The objectives of the assessment were to:
 
-[RECOMMENDATION]
-[RECOMMENDATION]
-[RECOMMENDATION]
-
-## 2. Assessment Scope
-### 2.1 Target Network
-
-IP Range: 127.0.0.1
-
-2.2 Included Assets
-
-The assessment included:
-
-Hosts identified within the authorized laboratory network
-TCP/UDP services exposed by those hosts
-HTTP services where present
-DNS traffic
-ARP traffic
-Network traffic generated during the assessment
-
-## 2.3 Assessment Window
-
-Start: 05 September 2026
-
-End: 06 September 2026
-
-Timezone: SAST (UTC+2)
-
-## 2.4 Out of Scope
-
-The following activities were excluded:
-
-- Internet-facing systems
-- Third-party systems
-- Denial-of-service testing
-- Destructive testing
-- Persistence
-- Data destruction
-- Unauthorized access
-- Testing outside the defined laboratory network
-  
-## 3. Methodology
-
-The assessment followed a structured approach based on established security-testing methodologies.
-
-The OWASP Web Security Testing Guide was used as a reference for web-security testing and reporting practices.
-
-PTES was used as a reference for structured penetration-testing phases, scope definition, technical testing and reporting.
-
-CVSS was used as the primary reference for consistent vulnerability severity assessment.
-
-The assessment consisted of:
-
-1. Reconnaissance
-2. Network traffic analysis
-3. Web-server vulnerability assessment
-4. Findings analysis
-5. Risk classification
-6. Remediation planning
+1. Identify active hosts on the test network.
+2. Identify open TCP ports.
+3. Determine services running on discovered ports.
+4. Capture and analyse network traffic.
+5. Assess the security configuration of the local web server.
+6. Identify potentially missing HTTP security controls.
+7. Document findings and provide remediation recommendations.
    
-## 4. Tools Used
-|Tool	               |Purpose                                                    |
-|--------------------|-----------------------------------------------------------|
-|Nmap	               | Host discovery, port scanning and service identification  |
-|Wireshark	         | Network traffic capture and protocol analysis             |
-|Nikto	             | Web-server security assessment                            |
-|Kali Linux	         | Assessment platform                                       |
-|VirtualBox	         | Isolated laboratory environment                           |
+### 2.2 Network Scope
 
-## 5. Phase 1 — Reconnaissance
-### 5.1 Objective
+The assessment was restricted to the local laboratory environment.
 
-The objective of this phase was to identify active hosts, open ports, exposed services, service versions and operating-system information within the authorized network.
+## Systems
+|System	                  | Address	                     | Purpose                    |
+|-------------------------|------------------------------|----------------------------|
+|Kali Linux	              | 10.0.2.15/24	               | Security testing machine   |
+|Test/DVWA environment	  | Local lab target	           | Vulnerable web application |
+|Web test server	        | 127.0.0.1	                   | Local HTTP testing         |
 
-5.2 Commands Used
-sudo nmap -sn 127.0.0.1
-sudo nmap -sV -O 127.0.0.1 -oN nmap_results.txt
-5.3 Discovered Hosts
-IP Address	Status	Operating System	Notes
-[IP]	Up	[OS]	[Notes]
-[IP]	Up	[OS]	[Notes]
-5.4 Open Ports and Services
-Host	Port	Protocol	Service	Version
-[IP]	[PORT]	TCP	[SERVICE]	[VERSION]
-[IP]	[PORT]	TCP	[SERVICE]	[VERSION]
+The exact IP addresses discovered during the Nmap assessment should be recorded in the final evidence section where applicable.
 
-### 5.5 Evidence
+## 3. Rules of Engagement
 
+The following rules were followed during the assessment:
 
+- Testing was performed only against authorised laboratory systems.
+- No external public systems were targeted.
+- No denial-of-service testing was performed.
+- Vulnerability exploitation was limited to controlled demonstrations.
+- Captured traffic was generated from the laboratory environment.
+- Results were documented for educational and defensive security purposes.
+  
+## 4. Assessment Methodology
 
+The assessment followed these stages:
 
-The complete raw Nmap output is provided in:
+Scope Definition
+      |
+      v
+Network Discovery
+      |
+      v
+Port and Service Enumeration
+      |
+      v
+Web Server Assessment
+      |
+      v
+Network Traffic Capture
+      |
+      v
+Analysis of Findings
+      |
+      v
+Risk Assessment
+      |
+      v
+Remediation Recommendations
+      |
+      v
+Final Report
 
-nmap_results.txt
+## 5. Tools Used
+### 5.1 Nmap
 
-6. Phase 2 — Network Traffic Analysis
-6.1 Objective
+Nmap was used to identify hosts, open ports, and services running on the target system.
 
-The objective was to capture and analyse network traffic for at least five minutes and investigate HTTP, DNS and ARP protocols.
+Example command:
 
-6.2 Capture Details
+nmap -sV 127.0.0.1
 
-Capture Duration: 8 minutes
+A more detailed scan can be performed using:
 
-Interface: [INTERFACE]
+nmap -sC -sV 127.0.0.1
+Purpose
 
-Capture File: wireshark_capture.pcap
+Nmap was used to:
 
-6.3 HTTP Analysis
+- Discover open ports
+- Identify running services
+- Determine service versions
+- Identify potentially unnecessary exposed services
+- Provide information for further security analysis
+  
+### 5.2 Wireshark
 
-Wireshark display filter:
+Wireshark was used to capture and analyse network traffic generated during testing.
+
+The capture was performed on the appropriate network interface.
+
+The following traffic was investigated:
+
+- HTTP
+- DNS
+- TCP
+- UDP
+- Loopback traffic where applicable
+
+Example display filters:
+
+http
+dns
+tcp
+ip.addr == 127.0.0.1
+
+### 5.3 Nikto
+
+Nikto was used to assess the security configuration of the HTTP server.
+
+Example:
+
+nikto -h http://127.0.0.1
+
+Nikto checks for issues such as:
+
+- Missing security headers
+- Dangerous HTTP methods
+- Default files
+- Server configuration weaknesses
+- Potentially exposed resources
+- Known web-server configuration problems
+  
+## 6. Network Discovery
+
+The first stage of the assessment involved identifying the target host and determining whether it was reachable.
+
+A basic connectivity test can be performed using:
+
+ping 127.0.0.1
+
+Nmap was then used for port and service discovery.
+
+Example:
+
+nmap -sV 127.0.0.1
+
+## Objective
+
+The purpose of this stage was to establish:
+
+- Whether the host was reachable
+- Which TCP ports were open
+- Which services were accessible
+- Which services required further investigation
+  
+## 7. Nmap Results
+
+The Nmap scan identified services exposed by the target system.
+
+The discovered ports and services should be recorded below based on the final scan output:
+
+Port	Protocol	Service	Version	Security Consideration
+<PORT>	TCP	<SERVICE>	<VERSION>	Review whether required
+<PORT>	TCP	<SERVICE>	<VERSION>	Restrict if unnecessary
+<PORT>	TCP	<SERVICE>	<VERSION>	Ensure securely configured
+Analysis
+
+Open ports represent potential attack surfaces. A service does not necessarily represent a vulnerability simply because it is exposed; however, every exposed service should be justified, securely configured, patched, and monitored.
+
+Unnecessary services should be disabled or restricted through firewall rules.
+
+8. Web Server Assessment
+
+The local HTTP server was tested as part of the assessment.
+
+The test server was observed running on:
+
+127.0.0.1:80
+
+Nikto was used to identify potential HTTP configuration issues.
+
+The assessment identified the following observations.
+
+8.1 Missing Strict-Transport-Security Header
+
+Nikto reported:
+
+Suggested security header missing:
+strict-transport-security
+Security Impact
+
+The HTTP Strict Transport Security (HSTS) header instructs compatible browsers to use HTTPS instead of HTTP for future connections.
+
+Its absence does not automatically mean that the server is vulnerable, particularly when the test server is operating only over HTTP in a laboratory environment. However, production websites using HTTPS should consider implementing HSTS.
+
+Recommendation
+
+For a production HTTPS service, configure the web server to return an appropriate HSTS header.
+
+Example:
+
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+This should only be deployed when HTTPS is correctly configured and intended for the domain.
+
+9. HTTP Methods
+
+Nikto reported the following allowed HTTP methods:
+
+OPTIONS
+HEAD
+GET
+POST
+Observation
+
+The server responded as allowing:
+
+OPTIONS
+HEAD
+GET
+POST
+
+These methods are commonly used by web applications.
+
+Security Consideration
+
+HTTP methods should be restricted to those required by the application. Unnecessary methods should be disabled where possible.
+
+For example, an application that does not require a particular method should not expose it unnecessarily.
+
+10. Wireshark Traffic Analysis
+
+Wireshark was used to capture traffic generated during the assessment.
+
+The capture allowed network communication to be observed at the packet level.
+
+10.1 HTTP Traffic
+
+HTTP traffic was successfully generated during testing of the local web server.
+
+The traffic could be observed using the Wireshark display filter:
 
 http
 
-Additional filter:
+HTTP packets showed communication between the client and the local web server.
 
-http.request.method == "POST"
-Observations
+The test environment therefore demonstrated how HTTP requests and responses can be observed during packet capture.
 
-[DOCUMENT YOUR ACTUAL OBSERVATIONS]
+10.2 DNS Traffic
 
-Sensitive Information
-
-[STATE WHETHER SENSITIVE INFORMATION WAS OBSERVED]
-
-If sensitive information was observed, describe the type without exposing the actual value.
-
-Security Impact
-
-[DESCRIBE IMPACT]
-
-Evidence
-
-
-
-
-6.4 DNS Analysis
-
-Wireshark display filter:
+DNS traffic was investigated using:
 
 dns
-Observations
 
-[DOCUMENT ACTUAL DNS ACTIVITY]
+If no DNS packets appear during a particular capture, this does not necessarily indicate a Wireshark problem.
 
-Security Assessment
+For example, when accessing a service through:
 
-[STATE WHETHER ANY SUSPICIOUS ACTIVITY WAS IDENTIFIED]
+127.0.0.1
+
+DNS resolution is not required because the address is already specified as a loopback IP address.
+
+Therefore, a DNS filter can legitimately return no packets during a localhost-only HTTP test.
+
+10.3 Loopback Traffic
+
+When testing:
+
+127.0.0.1
+
+the traffic is generated through the loopback interface rather than the normal Ethernet/Wi-Fi interface.
+
+Therefore, the correct interface must be selected in Wireshark when capturing localhost traffic.
+
+The loopback interface can be verified on Kali Linux using:
+
+ip addr
+
+The interface commonly appears as:
+
+lo
+11. Network Traffic Findings
+
+The Wireshark assessment demonstrated that packet capture can provide visibility into communications occurring within the test environment.
+
+The following protocols were relevant to the assessment:
+
+Protocol	Observation	Security Relevance
+HTTP	Web traffic observed	Data is transmitted without TLS encryption
+TCP	Transport traffic observed	Provides connection-level communication
+DNS	Dependent on hostname resolution	Can reveal queried domains
+Loopback	Used for localhost traffic	Required for localhost packet capture
+12. Security Findings
+
+The following findings were identified during the assessment.
+
+ID	Finding	Evidence	Risk
+F-01	HSTS header missing	Nikto	Medium
+F-02	HTTP service exposed	Web-server testing	Medium
+F-03	HTTP methods available	Nikto	Low/Medium
+F-04	Network services exposed	Nmap	Depends on service
+F-05	Unencrypted HTTP traffic observable	Wireshark	Medium
+
+Risk levels are indicative for this laboratory assessment. Actual production risk depends on the system architecture, exposure, data handled, authentication controls, and compensating security measures.
+
+13. Finding F-01 – Missing HSTS
+Description
+
+Nikto identified the absence of the:
+
+Strict-Transport-Security
+
+HTTP response header.
 
 Evidence
++ Target Host: 127.0.0.1
++ Target Port: 80
++ Suggested security header missing:
+  strict-transport-security
+Potential Impact
 
+Without HSTS, browsers are not instructed to automatically enforce HTTPS for the applicable domain.
 
+Recommendation
 
+For production HTTPS services:
 
-## 6.5 ARP Analysis
+Enable HTTPS.
+Install and correctly configure a valid TLS certificate.
+Configure HSTS.
+Test the configuration before deployment.
+14. Finding F-02 – HTTP Service
+Description
 
-Wireshark display filter:
+The assessment identified an HTTP service running on the local test server.
 
-arp
-Observations
+Potential Impact
 
-No activity
+HTTP does not provide transport encryption.
 
-Security Assessment
+Traffic sent using ordinary HTTP can potentially be viewed or modified by an attacker who is able to intercept the network traffic.
 
-No anomalies were observed
+Recommendation
 
-Evidence
+Production applications should use HTTPS/TLS.
 
+Example:
 
+HTTP
+  |
+  | Replace with
+  v
+HTTPS
+15. Finding F-03 – HTTP Methods
+Description
 
+Nikto identified the following allowed methods:
 
-## 7. Phase 3 — Web Vulnerability Assessment
-7.1 Objective
+OPTIONS
+HEAD
+GET
+POST
+Potential Impact
 
-Where an HTTP service was identified during reconnaissance, Nikto was used to assess the web server for common configuration weaknesses and information disclosure.
+HTTP methods that are not required by the application can increase the exposed attack surface.
 
-7.2 Command
+Recommendation
+
+The web server should allow only the HTTP methods required by the application.
+
+The configuration should be reviewed periodically to ensure unnecessary methods are disabled.
+
+16. Finding F-04 – Exposed Network Services
+Description
+
+Nmap was used to identify accessible network services.
+
+Potential Impact
+
+Each exposed service provides a potential entry point that must be securely configured and maintained.
+
+Recommendation
+
+Administrators should:
+
+Disable unnecessary services.
+Restrict administrative services to trusted networks.
+Use firewall rules.
+Keep services patched.
+Monitor exposed ports.
+Regularly perform vulnerability assessments.
+17. Finding F-05 – Unencrypted HTTP Traffic
+Description
+
+Wireshark demonstrated that HTTP communication could be captured and inspected.
+
+Potential Impact
+
+Because ordinary HTTP does not encrypt application-layer data, sensitive information transmitted through HTTP may be visible to someone capable of capturing the traffic.
+
+Recommendation
+
+Use HTTPS/TLS for production web applications.
+
+Sensitive information such as:
+
+Passwords
+Session identifiers
+Personal information
+Authentication tokens
+
+should not be transmitted through unencrypted HTTP.
+
+18. Risk Assessment
+
+The findings can be prioritised based on their potential impact and likelihood.
+
+Finding	Impact	Likelihood	Priority
+Missing HSTS	Medium	Medium	Medium
+HTTP service	Medium	Medium	Medium
+HTTP methods	Low–Medium	Medium	Medium
+Exposed services	Depends on service	Depends on exposure	Review
+Unencrypted HTTP	Medium–High for sensitive data	Medium	High for production
+
+These priorities are intended for the controlled laboratory environment and should not be treated as a formal enterprise risk rating without additional environmental information.
+
+19. Remediation Recommendations
+19.1 Use HTTPS
+
+Configure production web applications to use HTTPS instead of plain HTTP.
+
+Client
+   |
+   | HTTPS/TLS
+   v
+Web Server
+19.2 Configure Security Headers
+
+Consider implementing appropriate security headers such as:
+
+Strict-Transport-Security
+Content-Security-Policy
+X-Content-Type-Options
+Referrer-Policy
+
+The exact configuration should be tested against the application's requirements.
+
+19.3 Restrict Network Services
+
+Only required services should be exposed.
+
+Example firewall approach:
+
+sudo ufw status
+
+Unnecessary ports should be closed or restricted.
+
+19.4 Patch Services
+
+Services discovered through Nmap should be kept updated.
+
+Administrators should regularly check:
+
+Operating-system updates
+Web-server updates
+Application updates
+Database updates
+Security patches
+19.5 Monitor Network Traffic
+
+Network monitoring can help identify:
+
+Unexpected connections
+Unusual protocols
+Repeated connection attempts
+Suspicious DNS requests
+Unexpected external communication
+
+Wireshark can be used for detailed investigation, while production environments should normally use dedicated monitoring and detection solutions.
+
+20. Evidence Collected
+
+The following evidence should be included with the assessment:
+
+evidence/
+├── nmap_scan.txt
+├── nikto_results.txt
+├── wireshark_http_capture.pcapng
+├── screenshots/
+│   ├── nmap-results.png
+│   ├── nikto-results.png
+│   ├── wireshark-http.png
+│   └── wireshark-dns.png
+└── NETWORK_SECURITY_ASSESSMENT.md
+21. Limitations
+
+The assessment was performed in a controlled laboratory environment.
+
+The following limitations apply:
+
+The assessment did not represent a full production penetration test.
+Only authorised laboratory systems were tested.
+Internet-facing attack scenarios were not assessed.
+Denial-of-service testing was not performed.
+The assessment did not include a complete source-code review.
+Risk ratings may differ in a production environment.
+Results depend on the configuration of the test environment at the time of testing.
+22. Conclusion
+
+The network security assessment demonstrated the use of multiple security tools to identify and analyse network and web-server security issues.
+
+Nmap provided information about network services and exposed ports. Wireshark provided packet-level visibility into network communication, including HTTP traffic. Nikto identified web-server configuration observations, including the absence of the HSTS security header and the HTTP methods supported by the test server.
+
+The assessment demonstrates the importance of:
+
+Minimising exposed services
+Using HTTPS/TLS
+Configuring appropriate security headers
+Restricting unnecessary HTTP methods
+Applying security patches
+Monitoring network traffic
+Regularly reassessing systems for security weaknesses
+
+The identified issues should be addressed according to the risk and purpose of the environment. For production systems, additional controls such as firewall segmentation, vulnerability management, secure configuration management, logging, monitoring, and continuous security testing should also be considered.
+
+23. Appendix A – Useful Commands
+Nmap
+nmap <TARGET_IP>
+nmap -sV <TARGET_IP>
+nmap -sC -sV <TARGET_IP>
+Nikto
 nikto -h http://127.0.0.1
-7.3 Results
-Finding	Description	Severity
-[Finding]	[Description]	[Severity]
-[Finding]	[Description]	[Severity]
 
-7.4 Evidence
+Save results:
 
+nikto -h http://127.0.0.1 -output nikto_results.txt
+Network Interfaces
+ip addr
+Check Listening Services
+ss -tulnp
+UFW
+sudo ufw status
+24. Appendix B – Assessment Checklist
 
+Assessment scope defined
 
+Target environment identified
 
-## 8. Findings Register
-Finding ID	Description	Severity	Affected Asset	Recommended Fix
-F-001	[Finding]	[Severity]	[Asset]	[Fix]
-F-002	[Finding]	[Severity]	[Asset]	[Fix]
-F-003	[Finding]	[Severity]	[Asset]	[Fix]
+Nmap used for network/service discovery
 
-## 9. Detailed Findings
-F-001 — [Finding Name]
+Web server assessed with Nikto
 
-Severity: [Critical/High/Medium/Low/Info]
+HTTP traffic captured with Wireshark
 
-Affected Asset: [Asset]
+DNS traffic investigated
 
-CVSS: [Score if applicable]
+Security findings documented
 
-Description
+Risks discussed
 
-[Explain the vulnerability or security weakness.]
+Remediation recommendations provided
 
-Evidence
+Assessment limitations documented
 
-[Describe the evidence obtained from Nmap, Wireshark or Nikto.]
+Evidence identified
 
-Impact
+Final report prepared
 
-[Explain what could happen if the weakness were abused.]
+Assessment Status
 
-Recommendation
+Assessment completed: September 2026
 
-[Provide a specific remediation.]
+Primary tools:
 
-Remediation Priority
+Nmap
+Wireshark
+Nikto
+Markdown
 
-Priority: [P1/P2/P3/P4]
+Environment:
 
-Estimated Effort: [Easy/Medium/Hard]
-
-F-002 — [Finding Name]
-
-Severity: [Severity]
-
-Affected Asset: [Asset]
-
-CVSS: [Score if applicable]
-
-Description
-
-[Description]
-
-Evidence
-
-[Evidence]
-
-Impact
-
-[Impact]
-
-Recommendation
-
-[Recommendation]
-
-Remediation Priority
-
-Priority: [P1/P2/P3/P4]
-
-Estimated Effort: [Easy/Medium/Hard]
-
-## 10. Remediation Roadmap
-Priority	Finding	Recommended Action	Effort	Target
-P1	[Critical/High finding]	[Action]	Hard	Immediate
-P1	[High finding]	[Action]	Medium	Immediate
-P2	[Medium finding]	[Action]	Medium	30 days
-P3	[Low finding]	[Action]	Easy	60–90 days
-P4	Informational	Monitor/improve	Easy	Ongoing
-
-## Recommended Order
-
-1. Critical findings
-
-Address immediately because they may represent significant compromise risk.
-
-2. High findings
-
-Address next, particularly weaknesses that expose credentials, administrative interfaces or sensitive information.
-
-3. Medium findings
-
-Address after critical and high-risk issues.
-
-4. Low findings
-
-Address as part of security hardening.
-
-5. Informational observations
-
-Track them as part of continuous security monitoring.
-
-## 11. Conclusion
-
-The assessment successfully evaluated the security posture of the authorized laboratory network using network reconnaissance, traffic analysis and web-server assessment techniques.
-
-Nmap identified the hosts and services exposed within the assessment scope. Wireshark provided visibility into HTTP, DNS and ARP traffic. Where an HTTP service was present, Nikto was used to identify potential web-server configuration and security weaknesses.
-
-The assessment demonstrates the importance of reducing unnecessary network exposure, protecting sensitive communications with encryption, maintaining secure server configurations and continuously monitoring network activity.
-
-The recommended remediation roadmap should be implemented according to the severity and business impact of each finding, with Critical and High findings receiving the highest priority.
-
-## 12. References
-OWASP Web Security Testing Guide: https://owasp.org/www-project-web-security-testing-guide/
-PTES: https://www.pentest-standard.org/
-PTES Technical Guidelines: https://www.pentest-standard.org/index.php/PTES_Technical_Guidelines
-FIRST CVSS: https://www.first.org/cvss/
-Nmap Documentation: https://nmap.org/docs.html
-Wireshark Documentation: https://www.wireshark.org/docs/
-Nikto Documentation: https://github.com/sullo/nikto
-
-## 13. Evidence Files
-
-The following evidence files accompany this report:
-
-network_security_assessment.md
-nmap_results.txt
-wireshark_capture.pcap
-screenshots/nmap_scan.png
-screenshots/wireshark_http.png
-screenshots/wireshark_dns.png
-screenshots/wireshark_arp.png
-screenshots/nikto_scan.png
+Controlled Local Laboratory
