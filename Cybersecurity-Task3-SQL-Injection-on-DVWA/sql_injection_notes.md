@@ -1,5 +1,5 @@
-SQL Injection Payload Log and Analysis
-Laboratory Information
+# SQL Injection Payload Log and Analysis
+## Laboratory Information
 
 Application: Damn Vulnerable Web Application (DVWA)
 
