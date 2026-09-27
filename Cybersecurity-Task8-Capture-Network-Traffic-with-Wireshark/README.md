@@ -1,5 +1,5 @@
-Task 8 — Network Traffic Capture with Wireshark
-Overview
+# Task 8 — Network Traffic Capture with Wireshark
+## Overview
 
 This project demonstrates the use of Wireshark to capture and analyse network traffic in a controlled lab environment.
 
@@ -9,55 +9,59 @@ All traffic analysed during this exercise was generated from systems and service
 
 Ethics Notice: Network traffic should only be captured on networks or systems that you own or have explicit permission to monitor. Do not capture traffic from public Wi-Fi, university networks, workplace networks, or other networks without authorisation.
 
-Objectives
+## Objectives
 
 The objectives of this task were to:
 
-Install and configure Wireshark.
-Capture at least two minutes of network traffic.
-Filter HTTP traffic.
-Filter DNS traffic.
-Filter TCP traffic.
-Identify and analyse a TCP three-way handshake.
-Identify an example of unencrypted HTTP data.
-Export the capture as wireshark_capture.pcap.
-Explain the security risks associated with unencrypted HTTP.
-Explain how HTTPS protects network communications.
-Define common networking terminology.
-Tools Used
-Tool	Purpose
-Wireshark	Network packet capture and analysis
-Kali Linux	Test environment
-Python HTTP Server	Local HTTP traffic generation
-curl	Generating HTTP requests
-nslookup	Generating DNS queries
-ping	Generating network traffic
-1. Wireshark Installation
+- Install and configure Wireshark.
+- Capture at least two minutes of network traffic.
+- Filter HTTP traffic.
+- Filter DNS traffic.
+- Filter TCP traffic.
+- Identify and analyse a TCP three-way handshake.
+- Identify an example of unencrypted HTTP data.
+- Export the capture as wireshark_capture.pcap.
+- Explain the security risks associated with unencrypted HTTP.
+- Explain how HTTPS protects network communications.
+- Define common networking terminology.
+  
+## Tools Used
+|Tool	                 | Purpose                              |
+|----------------------|--------------------------------------|
+|Wireshark	           | Network packet capture and analysis  |
+|Kali Linux	           | Test environment                     |
+|Python HTTP Server	  | Local HTTP traffic generation        |
+|curl	                 | Generating HTTP requests             |
+|nslookup              | Generating DNS queries               |
+|ping	                 | Generating network traffic           |
+
+## 1. Wireshark Installation
 
 Wireshark was installed on Kali Linux using:
-
+```Bash
 sudo apt update
 sudo apt install wireshark -y
-
+```
 During installation, the option to allow non-superusers to capture packets was enabled.
 
 The current user was then added to the Wireshark group:
-
+```Bash
 sudo usermod -aG wireshark $USER
-
+```
 The group change was applied with:
-
+```Bash
 newgrp wireshark
-
+```
 The installation was verified using:
-
+```Bash
 wireshark --version
-2. Network Interface
+```
+## 2. Network Interface
 
 The available network interfaces were identified using:
-
+```Bash
 ip addr
-
+```
 The active network interface was selected in Wireshark before beginning the packet capture.
 
 Example:
@@ -73,17 +77,17 @@ Wireshark was opened and the active network interface was selected.
 A live packet capture was performed for at least two minutes.
 
 Additional test traffic was generated using commands such as:
-
+```Bash
 ping -c 5 google.com
 nslookup example.com
-
+```
 A local HTTP server was also created for controlled HTTP testing:
-
+```Bash
 mkdir ~/wireshark-lab
 cd ~/wireshark-lab
 echo "Wireshark HTTP test page" > index.html
 python3 -m http.server 8000
-
+```
 An HTTP request was generated using:
 
 curl http://127.0.0.1:8000/
@@ -91,7 +95,8 @@ curl http://127.0.0.1:8000/
 The capture was saved as:
 
 wireshark_capture.pcap
-4. HTTP Traffic Analysis
+
+## 4. HTTP Traffic Analysis
 Display Filter
 
 The following Wireshark display filter was used:
@@ -100,7 +105,8 @@ http
 
 The filter isolates packets identified as HTTP traffic.
 
-Screenshot
+![image]<img width="982" height="730" alt="http_get" src="https://github.com/user-attachments/assets/e1ccd6e6-7c02-4a6d-a416-46997cf3f9c9" />
+
 
 
 
@@ -269,7 +275,7 @@ An observer capturing the encrypted traffic may still see network-level informat
 
 HTTPS also provides mechanisms for authentication and integrity, helping ensure that clients communicate with the intended server and that data has not been altered in transit.
 
-10. Security Observations
+## 10. Security Observations
 
 The packet capture demonstrated several important network-security concepts.
 
@@ -297,14 +303,15 @@ Observation 4 — Encryption is important
 
 HTTPS protects HTTP application data from straightforward packet-level eavesdropping by encrypting the communication using TLS.
 
-11. Wireshark Filters Used
+## 11. Wireshark Filters Used
 Purpose	Display Filter
 HTTP traffic	http
 DNS traffic	dns
 TCP traffic	tcp
 Initial TCP SYN	tcp.flags.syn == 1 && tcp.flags.ack == 0
 TCP SYN-ACK	tcp.flags.syn == 1 && tcp.flags.ack == 1
-12. Evidence
+
+## 12. Evidence
 
 The following evidence files are included in this repository:
 
