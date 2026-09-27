@@ -70,7 +70,7 @@ eth0
 
 The actual interface used may differ depending on the virtual machine or computer configuration.
 
-3. Packet Capture
+## 3. Packet Capture
 
 Wireshark was opened and the active network interface was selected.
 
@@ -105,10 +105,7 @@ http
 
 The filter isolates packets identified as HTTP traffic.
 
-![image]<img width="982" height="730" alt="http_get" src="https://github.com/user-attachments/assets/e1ccd6e6-7c02-4a6d-a416-46997cf3f9c9" />
-
-
-
+<img width="982" height="730" alt="http_get" src="https://github.com/user-attachments/assets/d719b92e-5ea8-4721-bc62-22b70a64afcf" />
 
 
 Observations
@@ -124,16 +121,13 @@ Accept: */*
 
 The HTTP request demonstrates that application-layer information can be visible when communication is not encrypted.
 
-5. DNS Traffic Analysis
+## 5. DNS Traffic Analysis
 Display Filter
 
 The following filter was applied:
 
 dns
-Screenshot
-
-
-
+<img width="987" height="720" alt="dns_filter" src="https://github.com/user-attachments/assets/343d053e-6de9-468a-9e39-d49c04b60b11" />
 
 Observations
 
@@ -143,7 +137,7 @@ DNS is used to translate domain names into IP addresses. For example, a client m
 
 Depending on the DNS configuration and encryption technologies being used, traditional DNS traffic can expose the domain names being queried.
 
-6. TCP Traffic Analysis
+## 6. TCP Traffic Analysis
 Display Filter
 
 The following filter was applied:
@@ -192,10 +186,7 @@ This acknowledges the server's response.
 
 The TCP connection can then proceed with data transmission.
 
-Screenshot
-
-
-
+<img width="972" height="717" alt="tcp_handshake" src="https://github.com/user-attachments/assets/4d412fa3-e0ee-4cdc-bff2-d231335a659a" />
 
 The screenshot identifies the three packets as:
 
@@ -211,21 +202,18 @@ curl http://127.0.0.1:8000/
 The HTTP traffic was then inspected in Wireshark using:
 
 http
-Screenshot
-
-
-
+<img width="992" height="723" alt="http_filter" src="https://github.com/user-attachments/assets/5fc8d924-1768-4029-855d-c645ac66f361" />
 
 Information Visible
 
 The HTTP request can contain information such as:
 
-HTTP method
-Requested resource
-Host
-User-Agent
-HTTP headers
-Application data
+- HTTP method
+- Requested resource
+- Host
+- User-Agent
+- HTTP headers
+- Application data
 
 For example:
 
@@ -236,7 +224,7 @@ Accept: */*
 
 This demonstrates that HTTP does not provide encryption for the contents of the HTTP communication.
 
-8. Why Unencrypted HTTP Is Dangerous
+## 8. Why Unencrypted HTTP Is Dangerous
 
 HTTP sends application-layer information without providing encryption.
 
@@ -244,16 +232,16 @@ If HTTP traffic travels across a network where an attacker can observe the traff
 
 Depending on the application, this could expose:
 
-Web pages being requested
-Form information
-Cookies
-Authentication information
-HTTP headers
-Other sensitive application data
+- Web pages being requested
+- Form information
+- Cookies
+- Authentication information
+- HTTP headers
+- Other sensitive application data
 
 An attacker who can successfully observe or intercept unencrypted traffic may therefore obtain information that should remain private.
 
-9. How HTTPS Prevents Eavesdropping
+## 9. How HTTPS Prevents Eavesdropping
 
 HTTPS is HTTP transmitted over a secure TLS connection.
 
@@ -279,7 +267,7 @@ HTTPS also provides mechanisms for authentication and integrity, helping ensure 
 
 The packet capture demonstrated several important network-security concepts.
 
-Observation 1 — Protocol visibility
+### Observation 1 — Protocol visibility
 
 Wireshark can identify different network protocols by examining packet information.
 
@@ -288,28 +276,29 @@ Examples include:
 HTTP
 DNS
 TCP
-Observation 2 — TCP connection establishment
+### Observation 2 — TCP connection establishment
 
 The TCP three-way handshake demonstrates how TCP establishes a connection before normal data transfer.
 
 The sequence observed was:
 
 SYN → SYN-ACK → ACK
-Observation 3 — Unencrypted application data
+### Observation 3 — Unencrypted application data
 
 The HTTP test demonstrated that HTTP application data can be inspected in plaintext when encryption is not being used.
 
-Observation 4 — Encryption is important
+### Observation 4 — Encryption is important
 
 HTTPS protects HTTP application data from straightforward packet-level eavesdropping by encrypting the communication using TLS.
 
 ## 11. Wireshark Filters Used
-Purpose	Display Filter
-HTTP traffic	http
-DNS traffic	dns
-TCP traffic	tcp
-Initial TCP SYN	tcp.flags.syn == 1 && tcp.flags.ack == 0
-TCP SYN-ACK	tcp.flags.syn == 1 && tcp.flags.ack == 1
+|Purpose	               |Display Filter                             |
+|------------------------|-------------------------------------------|
+|HTTP traffic	           | http                                      |
+|DNS traffic	           | dns                                       |
+|TCP traffic	           | tcp                                       |
+|Initial TCP SYN	       | tcp.flags.syn == 1 && tcp.flags.ack == 0  |
+|TCP SYN-ACK	           | tcp.flags.syn == 1 && tcp.flags.ack == 1  |
 
 ## 12. Evidence
 
@@ -323,7 +312,8 @@ screenshots/http_get.png
 The complete packet capture is stored as:
 
 wireshark_capture.pcap
-Glossary
+
+## Glossary
 Packet
 
 A packet is a small unit of data sent across a network. Large pieces of information are divided into packets so they can be transmitted between devices.
@@ -361,7 +351,8 @@ In TCP, the three-way handshake is:
 SYN
 SYN-ACK
 ACK
-Conclusion
+
+## Conclusion
 
 This task demonstrated how Wireshark can be used to capture and analyse network traffic.
 
