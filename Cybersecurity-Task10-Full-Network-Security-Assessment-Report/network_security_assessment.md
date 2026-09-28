@@ -322,17 +322,18 @@ The following protocols were relevant to the assessment:
 
 The following findings were identified during the assessment.
 
-ID	   Finding	             Evidence	Risk
-F-01	HSTS header missing	 Nikto	   Medium
-F-02	HTTP service exposed	Web-server testing	Medium
-F-03	HTTP methods available	Nikto	Low/Medium
-F-04	Network services exposed	Nmap	Depends on service
-F-05	Unencrypted HTTP traffic observable	Wireshark	Medium
+|ID	    |Finding	                              |Evidence	            |Risk                |
+|---------|----------------------------------------|-----------------------|--------------------|
+|F-01	    |HSTS header missing	                  |Nikto	               |Medium              |
+|F-02	    |HTTP service exposed	                  |Web-server testing	   |Medium              |
+|F-03	    |HTTP methods available 	               |Nikto	               |Low/Medium          |
+|F-04	    |Network services exposed	               |Nmap	                  |Depends on service  |
+|F-05	    |Unencrypted HTTP traffic observable	   |Wireshark	            |Medium              |
 
 Risk levels are indicative for this laboratory assessment. Actual production risk depends on the system architecture, exposure, data handled, authentication controls, and compensating security measures.
 
 ## 13. Finding F-01 – Missing HSTS
-Description
+### Description
 
 Nikto identified the absence of the:
 
@@ -340,7 +341,7 @@ Strict-Transport-Security
 
 HTTP response header.
 
-Evidence
+### Evidence
 + Target Host: 127.0.0.1
 + Target Port: 80
 + Suggested security header missing:
@@ -349,26 +350,27 @@ Potential Impact
 
 Without HSTS, browsers are not instructed to automatically enforce HTTPS for the applicable domain.
 
-Recommendation
+### Recommendation
 
 For production HTTPS services:
 
-Enable HTTPS.
-Install and correctly configure a valid TLS certificate.
-Configure HSTS.
-Test the configuration before deployment.
-14. Finding F-02 – HTTP Service
-Description
+1. Enable HTTPS.
+2. Install and correctly configure a valid TLS certificate.
+3. Configure HSTS.
+4. Test the configuration before deployment.
+   
+## 14. Finding F-02 – HTTP Service
+### Description
 
 The assessment identified an HTTP service running on the local test server.
 
-Potential Impact
+### Potential Impact
 
 HTTP does not provide transport encryption.
 
 Traffic sent using ordinary HTTP can potentially be viewed or modified by an attacker who is able to intercept the network traffic.
 
-Recommendation
+### Recommendation
 
 Production applications should use HTTPS/TLS.
 
@@ -379,8 +381,9 @@ HTTP
   | Replace with
   v
 HTTPS
-15. Finding F-03 – HTTP Methods
-Description
+
+## 15. Finding F-03 – HTTP Methods
+### Description
 
 Nikto identified the following allowed methods:
 
@@ -398,62 +401,64 @@ The web server should allow only the HTTP methods required by the application.
 
 The configuration should be reviewed periodically to ensure unnecessary methods are disabled.
 
-16. Finding F-04 – Exposed Network Services
-Description
+## 16. Finding F-04 – Exposed Network Services
+### Description
 
 Nmap was used to identify accessible network services.
 
-Potential Impact
+### Potential Impact
 
 Each exposed service provides a potential entry point that must be securely configured and maintained.
 
-Recommendation
+### Recommendation
 
 Administrators should:
 
-Disable unnecessary services.
-Restrict administrative services to trusted networks.
-Use firewall rules.
-Keep services patched.
-Monitor exposed ports.
-Regularly perform vulnerability assessments.
-17. Finding F-05 – Unencrypted HTTP Traffic
-Description
+- Disable unnecessary services.
+- Restrict administrative services to trusted networks.
+- Use firewall rules.
+- Keep services patched.
+- Monitor exposed ports.
+- Regularly perform vulnerability assessments.
+  
+## 17. Finding F-05 – Unencrypted HTTP Traffic
+### Description
 
 Wireshark demonstrated that HTTP communication could be captured and inspected.
 
-Potential Impact
+###Potential Impact
 
 Because ordinary HTTP does not encrypt application-layer data, sensitive information transmitted through HTTP may be visible to someone capable of capturing the traffic.
 
-Recommendation
+### Recommendation
 
 Use HTTPS/TLS for production web applications.
 
 Sensitive information such as:
 
-Passwords
-Session identifiers
-Personal information
-Authentication tokens
+- Passwords
+- Session identifiers
+- Personal information
+- Authentication tokens
 
 should not be transmitted through unencrypted HTTP.
 
-18. Risk Assessment
+## 18. Risk Assessment
 
 The findings can be prioritised based on their potential impact and likelihood.
 
-Finding	Impact	Likelihood	Priority
-Missing HSTS	Medium	Medium	Medium
-HTTP service	Medium	Medium	Medium
-HTTP methods	Low–Medium	Medium	Medium
-Exposed services	Depends on service	Depends on exposure	Review
-Unencrypted HTTP	Medium–High for sensitive data	Medium	High for production
+|Finding	          |Impact	                         |Likelihood	              |Priority             |
+-------------------|--------------------------------|---------------------------|---------------------|
+|Missing HSTS	    |Medium	                         |Medium	                    |Medium               |
+|HTTP service	    |Medium	                         |Medium	                    |Medium               |
+|HTTP methods	    |Low–Medium	                   |Medium	                    |Medium               |
+|Exposed services	 |Depends on service	             |Depends on exposure	     |Review               |
+|Unencrypted HTTP	 |Medium–High for sensitive data	 |Medium	                    |High for production  |
 
 These priorities are intended for the controlled laboratory environment and should not be treated as a formal enterprise risk rating without additional environmental information.
 
-19. Remediation Recommendations
-19.1 Use HTTPS
+## 19. Remediation Recommendations
+### 19.1 Use HTTPS
 
 Configure production web applications to use HTTPS instead of plain HTTP.
 
@@ -462,7 +467,8 @@ Client
    | HTTPS/TLS
    v
 Web Server
-19.2 Configure Security Headers
+
+### 19.2 Configure Security Headers
 
 Consider implementing appropriate security headers such as:
 
@@ -473,7 +479,7 @@ Referrer-Policy
 
 The exact configuration should be tested against the application's requirements.
 
-19.3 Restrict Network Services
+### 19.3 Restrict Network Services
 
 Only required services should be exposed.
 
@@ -483,30 +489,31 @@ sudo ufw status
 
 Unnecessary ports should be closed or restricted.
 
-19.4 Patch Services
+### 19.4 Patch Services
 
 Services discovered through Nmap should be kept updated.
 
 Administrators should regularly check:
 
-Operating-system updates
-Web-server updates
-Application updates
-Database updates
-Security patches
-19.5 Monitor Network Traffic
+- Operating-system updates
+- Web-server updates
+- Application updates
+- Database updates
+- Security patches
+
+### 19.5 Monitor Network Traffic
 
 Network monitoring can help identify:
 
-Unexpected connections
-Unusual protocols
-Repeated connection attempts
-Suspicious DNS requests
-Unexpected external communication
+- Unexpected connections
+- Unusual protocols
+- Repeated connection attempts
+- Suspicious DNS requests
+- Unexpected external communication
 
 Wireshark can be used for detailed investigation, while production environments should normally use dedicated monitoring and detection solutions.
 
-20. Evidence Collected
+## 20. Evidence Collected
 
 The following evidence should be included with the assessment:
 
@@ -520,20 +527,22 @@ evidence/
 │   ├── wireshark-http.png
 │   └── wireshark-dns.png
 └── NETWORK_SECURITY_ASSESSMENT.md
-21. Limitations
+
+## 21. Limitations
 
 The assessment was performed in a controlled laboratory environment.
 
 The following limitations apply:
 
-The assessment did not represent a full production penetration test.
-Only authorised laboratory systems were tested.
-Internet-facing attack scenarios were not assessed.
-Denial-of-service testing was not performed.
-The assessment did not include a complete source-code review.
-Risk ratings may differ in a production environment.
-Results depend on the configuration of the test environment at the time of testing.
-22. Conclusion
+- The assessment did not represent a full production penetration test.
+- Only authorised laboratory systems were tested.
+- Internet-facing attack scenarios were not assessed.
+- Denial-of-service testing was not performed.
+- The assessment did not include a complete source-code review.
+- Risk ratings may differ in a production environment.
+- Results depend on the configuration of the test environment at the time of testing.
+  
+## 22. Conclusion
 
 The network security assessment demonstrated the use of multiple security tools to identify and analyse network and web-server security issues.
 
@@ -541,34 +550,39 @@ Nmap provided information about network services and exposed ports. Wireshark pr
 
 The assessment demonstrates the importance of:
 
-Minimising exposed services
-Using HTTPS/TLS
-Configuring appropriate security headers
-Restricting unnecessary HTTP methods
-Applying security patches
-Monitoring network traffic
-Regularly reassessing systems for security weaknesses
+- Minimising exposed services
+- Using HTTPS/TLS
+- Configuring appropriate security headers
+- Restricting unnecessary HTTP methods
+- Applying security patches
+- Monitoring network traffic
+- Regularly reassessing systems for security weaknesses
 
 The identified issues should be addressed according to the risk and purpose of the environment. For production systems, additional controls such as firewall segmentation, vulnerability management, secure configuration management, logging, monitoring, and continuous security testing should also be considered.
 
-23. Appendix A – Useful Commands
-Nmap
-nmap <TARGET_IP>
-nmap -sV <TARGET_IP>
-nmap -sC -sV <TARGET_IP>
-Nikto
+## 23. Appendix A – Useful Commands
+### Nmap
+nmap 127.0.0.1
+nmap -sV 127.0.0.1
+nmap -sC -sV 127.0.0.1
+
+### Nikto
 nikto -h http://127.0.0.1
 
 Save results:
 
 nikto -h http://127.0.0.1 -output nikto_results.txt
-Network Interfaces
+
+### Network Interfaces
 ip addr
-Check Listening Services
+
+### Check Listening Services
 ss -tulnp
-UFW
+
+### UFW
 sudo ufw status
-24. Appendix B – Assessment Checklist
+
+## 24. Appendix B – Assessment Checklist
 
 Assessment scope defined
 
@@ -594,17 +608,17 @@ Evidence identified
 
 Final report prepared
 
-Assessment Status
+## Assessment Status
 
-Assessment completed: September 2026
+### Assessment completed: September 2026
 
-Primary tools:
+### Primary tools:
 
 Nmap
 Wireshark
 Nikto
 Markdown
 
-Environment:
+### Environment:
 
 Controlled Local Laboratory
